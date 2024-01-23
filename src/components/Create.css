@@ -1,0 +1,13 @@
+/* Your CSS file or style tag */
+
+.category-tag {
+    
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    color: white;
+    border-radius: 999px; /* Use a large value for a rounded appearance */
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem; /* Equivalent to text-sm in Tailwind CSS */
+    background-color: #2563EB; /* Use your preferred primary color */
+    display: inline-block; /* Ensures each tag appears on the same line */
+}
