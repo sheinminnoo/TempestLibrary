@@ -2,31 +2,33 @@ import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import useTheme from '../hook/useTheme';
 import {db} from '../firebase'
-import { doc,getDoc } from 'firebase/firestore';
+import { doc,getDoc, onSnapshot } from 'firebase/firestore';
 import { useState } from 'react';
+import Book from '../assets/book.png';
+
 
 export default function BookDetail() {
-    let { id } = useParams();
+    let {id} = useParams()
     let { isDark } = useTheme()
     // book 
 
-    let [error,setError] = useState("")
+    let [error,setError] = useState('')
     let [loading,setLoading] = useState(false)
     let [book,setBook] = useState(null)
 
     useEffect(()=>{
         setLoading(true)
         let ref = doc(db,'books',id)
-        getDoc(ref).then(doc=>{
-            if(doc.exists()){
-                let book = {id : doc.id,...doc.data()}
+        onSnapshot(ref,b=>{
+            if(b.exists){
+                let book = {id:b.id,...b.data()}
                 setBook(book)
                 setLoading(false)
+                setError(false)
             }else{
-                setError("no documnet found")
+                setError("Books not exist!")
                 setLoading(false)
             }
-
         })
     },[id])
 
@@ -37,7 +39,7 @@ export default function BookDetail() {
             {book && (
                 <div className={`grid grid-cols-2 h-screen ${isDark ? 'text-white' : ''}`}>
                     <div>
-                        <img src={book.image} alt="" className='w-[80%]' />
+                        <img src={Book} alt="" className='w-[80%]' />
                     </div>
                     <div className='space-y-4'>
                         <h1 className='text-3xl font-bold'>{book.title}</h1>
